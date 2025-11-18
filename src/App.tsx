@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
-import { useWallet, useAnchorWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { PublicKey, SystemProgram } from "@solana/web3.js";
-import { BN } from "bn.js";
+import { PublicKey } from "@solana/web3.js";
 
 const PROGRAM_ID = new PublicKey("Asfjdz55joSntTv9NKCSCXvRVhGEJ6CWguurNkokAF2j");
 
-const getProgram = (wallet: any) => {
-  return {} as any;
-};
-
 function App() {
   const { connected, publicKey } = useWallet();
-  const wallet = useAnchorWallet();
   const [counterPda, setCounterPda] = useState<PublicKey | null>(null);
   const [count, setCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
@@ -92,10 +86,6 @@ function App() {
       setMessage("Count set successfully");
       setLoading(false);
     }, 1000);
-  };
-
-  const refreshCount = () => {
-    setMessage("Connect your wallet to see real blockchain data");
   };
 
   return (
@@ -210,22 +200,6 @@ function App() {
             >
               {loading ? 'Loading...' : 'Decrement'}
             </button>
-            
-            <button 
-              onClick={refreshCount}
-              style={{
-                padding: '12px 16px',
-                backgroundColor: '#666',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: 'bold'
-              }}
-            >
-              Refresh
-            </button>
           </div>
 
           {/* Set Count Section */}
@@ -283,7 +257,6 @@ function App() {
             <p><strong>Your Address:</strong> {publicKey.toString().slice(0, 8)}...{publicKey.toString().slice(-8)}</p>
             <p><strong>Counter PDA:</strong> {counterPda ? `${counterPda.toString().slice(0, 8)}...` : 'Computing...'}</p>
             <p><strong>Program ID:</strong> {PROGRAM_ID.toString().slice(0, 8)}...</p>
-            <p><strong>Status:</strong> UI Working | Blockchain: Simulation Mode</p>
           </div>
         </div>
       )}
@@ -299,9 +272,6 @@ function App() {
         }}>
           <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>
             Connect your wallet to start using the Counter dApp
-          </p>
-          <p style={{ fontSize: '0.9rem', color: '#888' }}>
-            Make sure you're connected to Solana Devnet in your wallet
           </p>
         </div>
       )}
